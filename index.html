@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jogo da forca</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #060774;
+        }
+        .container {
+            text-align: center;
+            border: 2px solid #080101;
+            padding: 20px;
+            background-color: rgb(94, 153, 202);
+            width: 300px;
+        }
+        .word {
+            font-size: 30px;
+            letter-spacing: 5px;
+        }
+        .keyboard {
+            margin-top: 20px;
+        }
+        .keyboard button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .hangman-img {
+            margin-top: 20px;
+            width: 150px;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Jogo da Forca</h1>
+    <p id="word" class="word">_ _ _ _ _</p>
+    <div class="hangman-img" id="hangman-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Hangman-0.png" alt="Forca" id="forca" />
+    </div>
+    <div class="keyboard" id="keyboard"></div>
+    <p id="message" class="message"></p>
+</div>
+
+<script>
+    const words = ["javascript", "forca", "programacao", "desenvolvimento", "html", "css"];
+    let selectedWord = "";
+    let displayedWord = [];
+    let wrongGuesses = 0;
+    let guessedLetters = [];
+    let maxWrongGuesses = 6;
+
+    // Função para inicializar o jogo
+    function initGame() {
+        selectedWord = words[Math.floor(Math.random() * words.length)];
+        displayedWord = Array(selectedWord.length).fill("_");
+        wrongGuesses = 0;
+        guessedLetters = [];
+        document.getElementById("message").textContent = "";
+        document.getElementById("word").textContent = displayedWord.join(" ");
+        updateHangmanImage();
+        createKeyboard();
+    }
+
+    // Função para atualizar a imagem da forca
+    function updateHangmanImage() {
+        const images = [
+            "https://upload.wikimedia.org/wikipedia/commons/a/ab/Hangman-0.png", // 0 erro
+            "https://upload.wikimedia.org/wikipedia/commons/6/6f/Hangman-1.png", // 1 erro
+            "https://upload.wikimedia.org/wikipedia/commons/3/3d/Hangman-2.png", // 2 erro
+            "https://upload.wikimedia.org/wikipedia/commons/d/d1/Hangman-3.png", // 3 erro
+            "https://upload.wikimedia.org/wikipedia/commons/e/ed/Hangman-4.png", // 4 erro
+            "https://upload.wikimedia.org/wikipedia/commons/8/8b/Hangman-5.png", // 5 erro
+            "https://upload.wikimedia.org/wikipedia/commons/c/c3/Hangman-6.png"  // 6 erro
+        ];
+        document.getElementById("forca").src = images[wrongGuesses];
+    }
+
+    // Função para criar os botões do teclado
+    function createKeyboard() {
+        const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+        const keyboardDiv = document.getElementById("keyboard");
+        keyboardDiv.innerHTML = ""; // Limpar teclado existente
+
+        alphabet.forEach(letter => {
+            const button = document.createElement("button");
+            button.textContent = letter;
+            button.onclick = () => handleGuess(letter);
+            keyboardDiv.appendChild(button);
+        });
+    }
+
+    // Função que trata o palpite do jogador
+    function handleGuess(letter) {
+        if (guessedLetters.includes(letter)) return; // Se a letra já foi chutada, não faz nada
+        guessedLetters.push(letter);
+
+        let correctGuess = false;
+        for (let i = 0; i < selectedWord.length; i++) {
+            if (selectedWord[i] === letter) {
+                displayedWord[i] = letter;
+                correctGuess = true;
+            }
+        }
+
+        if (correctGuess) {
+            document.getElementById("word").textContent = displayedWord.join(" ");
+            checkWin();
+        } else {
+            wrongGuesses++;
+            updateHangmanImage();
+            checkLose();
+        }
+    }
+
+    // Função para checar se o jogador venceu
+    function checkWin() {
+        if (displayedWord.join("") === selectedWord) {
+            document.getElementById("message").textContent = "Você venceu! A palavra é: " + selectedWord;
+        }
+    }
+
+    // Função para checar se o jogador perdeu
+    function checkLose() {
+        if (wrongGuesses === maxWrongGuesses) {
+            document.getElementById("message").textContent = "Você perdeu! A palavra era: " + selectedWord;
+        }
+    }
+
+    // Iniciar o jogo ao carregar a página
+    initGame();
+</script>
+
+</body>
+</html>

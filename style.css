@@ -1,0 +1,72 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    border: 2px solid #333;
+    padding: 20px;
+    background-color: #fff;
+    width: 350px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    font-size: 28px;
+    color: #333;
+}
+
+.word {
+    font-size: 36px;
+    letter-spacing: 5px;
+    color: #333;
+    margin: 20px 0;
+}
+
+.keyboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.keyboard button {
+    margin: 5px;
+    padding: 10px;
+    font-size: 18px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.keyboard button:hover {
+    background-color: #495057;
+}
+
+.keyboard button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.hangman-img {
+    margin-top: 20px;
+    width: 150px;
+    height: 150px;
+}
+
+#message {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #d9534f; /* Vermelho para mensagem de erro ou vitória */
+}
